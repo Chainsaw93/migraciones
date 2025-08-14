@@ -1,0 +1,66 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_xiv
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e-20210228\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-11 23:43+0000\n"
+"PO-Revision-Date: 2021-05-11 23:43+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_xiv
+#: model:ir.model.fields,field_description:hr_xiv.field_hr_contract__accumulate_xiv
+msgid "Accumulate XIV"
+msgstr "Acumular XIV"
+
+#. module: hr_xiv
+#: model:ir.model.fields,field_description:hr_xiv.field_hr_contract__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: hr_xiv
+#: model:ir.model,name:hr_xiv.model_hr_contract
+msgid "Extend Contract Form for XIV"
+msgstr "Vista formulario contrato heredado por XIV"
+
+#. module: hr_xiv
+#: model:ir.model.fields,field_description:hr_xiv.field_hr_contract__id
+msgid "ID"
+msgstr "ID (identificador)"
+
+#. module: hr_xiv
+#: model:ir.model.fields,field_description:hr_xiv.field_hr_contract____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: hr_xiv
+#: model:hr.salary.rule,name:hr_xiv.hr_rule_xiii_accumulated
+msgid "XIV Accumulated"
+msgstr "XIV Acumulado"
+
+#. module: hr_xiv
+#: model:hr.salary.rule,name:hr_xiv.hr_rule_xiii_month
+msgid "XIV Mensualizado"
+msgstr "XIV Mensualizado"
+
+#. module: hr_xiv
+#: model:ir.model.fields,field_description:hr_xiv.field_hr_contract__monthly_xiv_amount
+msgid "XIV Month"
+msgstr "XIV Mes"
+
+#. module: hr_xiv
+#: model:hr.salary.rule,name:hr_xiv.hr_rule_xiii_prov
+msgid "XIV Provisionado"
+msgstr "XIV Provisionado"
+
+#. module: hr_xiv
+#: model:ir.model.fields,field_description:hr_xiv.field_hr_contract__is_monthly_xiv
+msgid "XIV by Month"
+msgstr "XIV por Mes"

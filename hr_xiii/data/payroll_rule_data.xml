@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+         <record id="hr_rule_xiii_month" model="hr.salary.rule">
+            <field name="name">XIII Mensualizado</field>
+            <field name="sequence" eval="89"/>
+            <field name="code">XIII</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = not contract.accumulate_xiii or False</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = (categories.BASIC + categories.BAL + categories.ALW_IESS) / 12</field>
+            <field name="struct_id" ref="hr_payroll_ext.structure_base"/>
+         </record>
+
+         <record id="hr_rule_xiii_accumulated" model="hr.salary.rule">
+            <field name="name">XIII ACUMULADO</field>
+            <field name="sequence" eval="88"/>
+            <field name="code">XIII-A</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.accumulate_xiii and payslip.date_from.month &gt;= contract.get_xiii_period()[0].month and payslip.date_to.month &lt;= contract.get_xiii_period()[1].month or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.accumulated_xiii_amount(payslip.employee_id)</field>
+            <field name="struct_id" ref="hr_payroll_ext.structure_base"/>
+         </record>
+
+        <record id="hr_rule_xiii_prov" model="hr.salary.rule">
+            <field name="name">XIII Provisionado</field>
+            <field name="sequence" eval="182"/>
+            <field name="code">XIII-P</field>
+            <field name="category_id" ref="hr_payroll_base.PROV"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.accumulate_xiii or False</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = (categories.BASIC + categories.BAL + categories.ALW_IESS) / 12</field>
+            <field name="struct_id" ref="hr_payroll_ext.structure_base"/>
+         </record>
+
+    </data>
+</odoo>

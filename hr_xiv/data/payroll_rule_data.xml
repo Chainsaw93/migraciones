@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_rule_xiv_month" model="hr.salary.rule">
+            <field name="name">XIV Mensualizado</field>
+            <field name="sequence" eval="92"/>
+            <field name="code">XIV</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = not contract.accumulate_xiv or False</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.get_current_sbu()/360*30 or 0.0</field>
+            <field name="struct_id" ref="hr_payroll_ext.structure_base"/>
+        </record>
+
+        <record id="hr_rule_xiv_accumulated" model="hr.salary.rule">
+            <field name="name">XIV Acumulado</field>
+            <field name="sequence" eval="91"/>
+            <field name="code">XIV-A</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.accumulate_xiv and payslip.date_from.month &gt;= contract.get_xiv_period()[0].month and payslip.date_to.month &lt;= contract.get_xiv_period()[1].month or False</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.acc_xiv_amount() or 0.00</field>
+            <field name="struct_id" ref="hr_payroll_ext.structure_base"/>
+        </record>
+
+        <record id="hr_rule_xiv_prov" model="hr.salary.rule">
+            <field name="name">XIV Provisionado</field>
+            <field name="sequence" eval="183"/>
+            <field name="code">XIV-P</field>
+            <field name="category_id" ref="hr_payroll_base.PROV"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.accumulate_xiv or False</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.get_current_sbu()/360*30 or 0.0</field>
+            <field name="struct_id" ref="hr_payroll_ext.structure_base"/>
+        </record>
+
+    </data>
+</odoo>

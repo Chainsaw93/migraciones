@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_contract_xiv_ext" model="ir.ui.view">
+            <field name="name">view_contract_xiv_ext</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_reserve_fund.hr_contract_reserve_view_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='others']" position="inside">
+                    <field name="accumulate_xiv" />
+                    <field name="accumulated_xiv_amount" attrs="{'invisible':[('accumulate_xiv','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

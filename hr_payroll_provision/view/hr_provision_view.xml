@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_provision_tree_view" model="ir.ui.view">
+        <field name="name">hr.provision.tree.view</field>
+        <field name="model">hr.x.provision.record</field>
+        <field name="arch" type="xml">
+            <tree string="Provisions"
+                  decoration-info="state in('pending')"
+                  decoration-muted="state in ('paid')"
+                  decoration-danger="state in ('cancelled')">
+                <field name="name"/>
+                <field name="company_id" optional="hide"/>
+                <field name="contract_id" invisible="1"/>
+                <field name="employee_id"/>
+                <field name="provision_date"/>
+                <field name="provision_amount"/>
+                <field name="provision_type"/>
+                <field name="create_date" optional="hide"/>
+                <field name="description" invisible="1"/>
+                <field name="create_uid"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_provision_form_view" model="ir.ui.view">
+        <field name="name">hr.provision.form.view</field>
+        <field name="model">hr.x.provision.record</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button type="object" name="set_paid" class="btn btn-primary" string="Paid"
+                            states="pending" confirm="This action will register this provision as paid.
+                            Are you sure?" groups="hr_payroll.group_hr_payroll_manager"/>
+                    <button type="object" name="set_cancelled" class="btn btn-warning" string="Cancel"
+                            states="pending" confirm="This action will cancel the provision and can not be reversed.
+                             Are you sure?" groups="hr_payroll.group_hr_payroll_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,paid,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <field name="name" required="True" readonly="1" store="1"/>
+                    </div>
+                    <group colspan="4">
+                        <group col="2">
+                            <field name="contract_id"
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            <field name="provision_type"/>
+                            <field name="provision_date"/>
+                            <field name="provision_amount"/>
+                        </group>
+                        <group col="2">
+                            <field name="employee_id"
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            <field name="company_id" required="1" readonly="1"/>
+                            <field name="create_date" readonly="1" store="1"/>
+                            <field name="create_uid" readonly="1" store="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"
+                           groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="hr_provision_pivot" model="ir.ui.view">
+            <field name="name">hr_provision_pivot</field>
+            <field name="model">hr.x.provision.record</field>
+            <field name="arch" type="xml">
+                <pivot string="Provision">
+                    <field name="employee_id" type="row"/>
+                    <field name="state" type="row"/>
+                    <field name="name"/>
+                    <field name="provision_type" type="col"/>
+                    <field name="provision_date" type="col" />
+                    <field name="provision_amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+    <record id="hr_provision_graph_view" model="ir.ui.view">
+            <field name="name">hr_provision_graph_view</field>
+            <field name="model">hr.x.provision.record</field>
+            <field name="arch" type="xml">
+                <graph string="Provision analysis" type="bar" sample="1" disable_linking="1">
+                    <field name="employee_id" type="col"/>
+                    <field name="provision_type" type="col"/>
+                    <field name="provision_date" type="row" interval="year"/>
+                    <field name="provision_amount" type="measure"/>
+                </graph>
+            </field>
+        </record>
+    <record id="hr_provision_search" model="ir.ui.view">
+        <field name="name">hr_provision_search</field>
+        <field name="model">hr.x.provision.record</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" string="Name"/>
+                <field name="provision_type" string="Type"/>
+                <field name="employee_id" string="Employee"/>
+                <field name="provision_date" string="Date"/>
+                <field name="state" string="State"/>
+                <filter name="type_xiii" string="XIII" domain="[('provision_type','=','xiii')]"/>
+                <filter name="type_xiv" string="XIV" domain="[('provision_type','=','xiv')]"/>
+                <filter name="state_pending" string="Pending" domain="[('state','=','pending')]"/>
+                <group expand="1" string="Group By">
+                    <filter name='group_by_provision_date' string="Provision date"
+                            context="{'group_by':'provision_date:month'}"/>
+                    <filter name='group_by_employee' string="Employee" context="{'group_by':'employee_id'}"/>
+                    <filter name='group_by_provision_type' string="Provision type"
+                            context="{'group_by':'provision_type'}"/>
+                    <filter name='group_by_provision_state' string="Provision state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="hr_provision_action" model="ir.actions.act_window">
+        <field name="name">Provision</field>
+        <field name="res_model">hr.x.provision.record</field>
+        <field name="context">{'search_default_group_by_provision_type': 1,'search_default_state_pending': 1}</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+    <menuitem id="hr_provision_menu"
+              action="hr_provision_action"
+              parent="hr_work_entry_contract.menu_hr_payroll_configuration"
+              groups="hr_payroll.group_hr_payroll_manager"
+              sequence="12"
+              name="Provision Management"/>
+</odoo>
